@@ -1,0 +1,44 @@
+propel:
+  _attributes:           { package: plugins.sfJobQueuePlugin.lib.model }
+
+  # a sfJob is the minimalistic representation of a job
+  sf_job:
+    _attributes:         { phpName: sfJob, package: plugins.sfJobQueuePlugin.lib.model }
+    id:                  { phpName: Id, type: integer, required: true, primaryKey: true, autoincrement: true }
+    name:                varchar(30)
+    sf_job_queue_id:     { type: integer, foreignTable: sf_job_queue, foreignReference: id, required: true, onDelete: cascade, isPrimaryKey: true }
+    type:                varchar(50)
+    tries:               integer
+    max_tries:           integer
+    is_recuring:         boolean
+    # retry delay, in seconds (minimal delay between two tries of the same job)
+    retry_delay:         integer
+    params:              longvarchar
+    message:             longvarchar
+    # priority : from 0 to 9 (lower to higher)
+    priority:            { phpName: Priority, type: integer, default: 0 }
+    created_at:          timestamp
+    scheduled_at:        timestamp
+    completed_at:        timestamp
+    last_tried_at:       timestamp
+    # status can be : -9=error -1=cancelled 0=stopped 1=running 2=idle 9=success
+    status:              { phpName: Status, type: integer, default: 2 }
+
+  # a sfJobQueue gathers several jobs to be runned
+  sf_job_queue:
+    _attributes:         { phpName: sfJobQueue, package: plugins.sfJobQueuePlugin.lib.model }
+    id:                  { phpName: Id, type: integer, required: true, primaryKey: true, autoincrement: true }
+    name:                { phpName: Name, type: varchar(50), required: true }
+    # the ordonnancer is responsible of the election of the next job to be 
+    # processed by the queue
+    # can be 'fifo' (first in, first out) or 'prority' (highest priority is first out)
+    scheduler_name:      varchar(50)
+    scheduler_params:    longvarchar
+    # status can be : 0=stopped 1=running
+    status:              { phpName: Status, type: integer, default: 0 }
+    requested_status:    { phpName: RequestedStatus, type: integer, default: 0 }
+    # polling delay, in seconds (minimal delay between two job elections)
+    polling_delay:       { phpName: PollingDelay, type: integer, default: 10 }
+    created_at:          timestamp
+    _uniques:
+      name:              [name]

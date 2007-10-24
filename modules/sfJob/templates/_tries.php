@@ -1,0 +1,1 @@
+<?php echo $sf_job->getTries(); ?><?php if (!$sf_job->getIsRecuring()): ?> / <?php echo $sf_job->getMaxTries(); ?><?php endif; ?>

@@ -1,0 +1,33 @@
+generator:
+  class:                   sfPropelAdminGenerator
+  param:
+    model_class:           sfJob
+    theme:                 default
+
+    fields:
+      tries:               { name: Number of tries }
+
+    list:
+      title:               List of the Job
+      filters:             [type, status, sf_job_queue_id]
+      sort:                [created_at, desc]
+      display:             [=id, _status, sf_job_queue, type, _tries, _is_recuring, created_at, scheduled_at, completed_at]
+      object_actions:
+        _edit:             -
+        cancel:            { name: Cancel job, action: cancel, icon: /sf/sf_admin/images/delete.png }
+      actions:
+        _create:           -
+        job_queues_list:   { name: Back to job queues list, action: listQueues, icon: /sf/sf_admin/images/list.png }
+
+    edit:
+      title:               Job edition
+      display:
+        "Job informations": [sf_job_queue_id, _type, max_tries, is_recuring, retry_delay, scheduled_at]
+        "Job parameters":   [_params]
+        "Job status":       [status, tries, created_at, last_tried_at, completed_at]
+      fields:
+        status:             { type: plain }
+        tries:              { type: plain }
+        created_at:         { type: plain }
+        last_tried_at:      { type: plain }
+        completed_at:       { type: plain }

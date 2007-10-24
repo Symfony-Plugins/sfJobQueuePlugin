@@ -1,0 +1,39 @@
+generator:
+  class:                   sfPropelAdminGenerator
+  param:
+    model_class:           sfJobQueue
+    theme:                 default
+
+    fields:
+      name:                          { name: Name }
+      scheduler_name:                { name: Scheduler }
+      polling_delay:                 { name: Polling delay }
+      _is_running:                   { name: Status }
+      _nb_active_ready_jobs:         { name: ready, help: number of jobs ready to be executed }
+      _nb_active_waiting_jobs:       { name: waiting, help: number of waiting jobs }
+      _nb_active_recuring_jobs:      { name: recuring, help: number of recuring jobs }
+      _nb_active_scheduled_jobs:     { name: scheduled, help: number of scheduled jobs }
+      _nb_active_jobs:               { name: scheduled, help: number of active jobs }
+      _nb_completed_successful_jobs: { name: successful }
+      _nb_completed_cancelled_jobs:  { name: cancelled }
+      _nb_completed_failure_jobs:    { name: failed }
+      created_at:                    { name: Date of creation }
+
+    list:
+      title:               List of the Job Queues
+      filters:             [status]
+      sort:                [created_at, desc]
+      display:             [_name, _is_running, created_at, _nb_active_ready_jobs, _nb_active_waiting_jobs, __nb_active_recuring_jobs, _nb_active_scheduled_jobs, _nb_active_jobs, nb_completed_successful_jobs, _nb_completed_cancelled_jobs, _nb_completed_failure_jobs]
+      object_actions:
+        _edit:             -
+        create_job:        { name: Create a job, action: createJob, icon: /sf/sf_admin/images/add.png }
+
+    edit:
+      display:             [name, scheduler_name, polling_delay]
+      fields:
+        name:              { params: help: Name of the queue, params: disabled=false, type: input_tag }
+      actions:
+        _list:             -
+        _save:             -
+        _delete:           confirm: Are you sur you want to delete this job queue ? All the attached jobs will be stopped and deleted.
+        create_job:        { name: Create a job, action: createJob, icon: /sf/sf_admin/images/add.png }

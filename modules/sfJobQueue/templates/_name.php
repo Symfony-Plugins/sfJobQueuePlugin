@@ -1,0 +1,1 @@
+<?php echo link_to($sf_job_queue->getName(), 'sfJob/list?filter=filter&filters[sf_job_queue_id]='.$sf_job_queue->getId()); ?>

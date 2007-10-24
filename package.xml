@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>sfJobQueuePlugin</name>
+ <channel>pear.symfony-project.com</channel>
+ <summary>Symfony Job Queues</summary>
+ <description>This plugins enables job queues into Symfony. Using a job queue can be useful when asynchronised server-side operations have to be performed (periodically grabbing a RSS feed, automatically sending emails, etc.) or in environments without a cron access.</description>
+ <lead>
+  <name>Xavier Lacot</name>
+  <user>xavier</user>
+  <email>xavier@lacot.org</email>
+  <active>yes</active>
+ </lead>
+ <date>2007-10-24</date>
+ <time>02:05:12</time>
+ <version>
+  <release>0.2.0</release>
+  <api>0.2.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.symfony-project.com/license">MIT license</license>
+ <notes>
+ * upgraded the graphical interface :
+   * possibility to create jobs
+   * support for recuring jobs
+   * support for jobs scheduling
+ * improved documentation
+ * introduced job queue manager concept
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="config">
+    <file name="schema.yml" role="data" />
+   </dir>
+   <dir name="data">
+    <dir name="tasks">
+     <file name="sfJobQueueTask.php" role="data" />
+    </dir>
+   </dir>
+   <dir name="lib">
+    <dir name="jobHandlers">
+     <file name="sfJobHandler.class.php" role="data" />
+     <file name="sfJobHandlerInterface.interface.php" role="data" />
+    </dir>
+    <dir name="model">
+     <file name="sfJob.php" role="data" />
+     <file name="sfJobPeer.php" role="data" />
+     <file name="sfJobQueue.php" role="data" />
+     <file name="sfJobQueuePeer.php" role="data" />
+    </dir>
+    <dir name="schedulers">
+     <file name="sfFifoScheduler.class.php" role="data" />
+     <file name="sfPriorityScheduler.class.php" role="data" />
+     <file name="sfScheduler.class.php" role="data" />
+    </dir>
+    <file name="sfJobQueueManager.class.php" role="data" />
+   </dir>
+   <dir name="modules">
+    <dir name="sfJob">
+     <dir name="actions">
+      <file name="actions.class.php" role="data" />
+     </dir>
+     <dir name="config">
+      <file name="generator.yml" role="data" />
+     </dir>
+     <dir name="templates">
+      <file name="_filters.php" role="data" />
+      <file name="_is_recuring.php" role="data" />
+      <file name="_list_td_actions.php" role="data" />
+      <file name="_params.php" role="data" />
+      <file name="_status.php" role="data" />
+      <file name="_tries.php" role="data" />
+      <file name="_type.php" role="data" />
+      <file name="listSuccess.php" role="data" />
+      <file name="paramsError.php" role="data" />
+      <file name="paramsSuccess.php" role="data" />
+     </dir>
+     <dir name="validate">
+     </dir>
+    </dir>
+    <dir name="sfJobQueue">
+     <dir name="actions">
+      <file name="actions.class.php" role="data" />
+     </dir>
+     <dir name="config">
+      <file name="generator.yml" role="data" />
+     </dir>
+     <dir name="templates">
+      <file name="_edit_actions.php" role="data" />
+      <file name="_filters.php" role="data" />
+      <file name="_is_running.php" role="data" />
+      <file name="_list_td_actions.php" role="data" />
+      <file name="_list_th_tabular.php" role="data" />
+      <file name="_list_th_tabular2.php" role="data" />
+      <file name="_list.php" role="data" />
+      <file name="_name.php" role="data" />
+      <file name="_nb_active_jobs.php" role="data" />
+      <file name="_nb_active_ready_jobs.php" role="data" />
+      <file name="_nb_active_recuring_jobs.php" role="data" />
+      <file name="_nb_active_scheduled_jobs.php" role="data" />
+      <file name="_nb_active_waiting_jobs.php" role="data" />
+      <file name="_nb_completed_cancelled_jobs.php" role="data" />
+      <file name="_nb_completed_successful_jobs.php" role="data" />
+      <file name="editJobSuccess.php" role="data" />
+      <file name="updateStatusSuccess.php" role="data" />
+     </dir>
+     <dir name="validate">
+     </dir>
+    </dir>
+   </dir>
+   <file name="README" role="data" />
+   <file name="LICENSE" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.1</min>
+   </pearinstaller>
+   <package>
+    <name>symfony</name>
+    <channel>pear.symfony-project.com</channel>
+    <min>1.0.0</min>
+    <max>1.1.0</max>
+    <exclude>1.1.0</exclude>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+	 <version>
+	  <release>0.1.0</release>
+	  <api>0.1.0</api>
+	 </version>
+	 <stability>
+	  <release>alpha</release>
+	  <api>alpha</api>
+	 </stability>
+   <date>2007-09-17</date>
+   <time>18:01:30</time>
+   <license uri="http://www.symfony-project.com/license">MIT license</license>
+   <notes>Initial public release. Features:
+ * multi-queues support
+ * one given queue can contain heterogeneous job types
+ * scheduling (job election) strategy abstraction
+ * CLI tasks
+ * Queue and jobs management graphical module (job status visualisation only)</notes>
+  </release>
+ </changelog>
+</package>
