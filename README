@@ -154,7 +154,7 @@ $queue->addJob('mail', array('to' => 'xavier@lacot.org', 'topic' => 'Testing the
 
 This means that you will have to create, somewhere in your project (why not in 
 another plugin ;)) a JobHandler that supports the "mail" job type. For more 
-details, see the paragraph "[Creating a new job type]".
+details, see the paragraph "[#Creatinganewjobtype Creating a new job type]".
 
 == Job parameters ==
 A job queue can be tweaked using several parameters:
