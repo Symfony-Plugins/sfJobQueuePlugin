@@ -12,8 +12,7 @@ to be performed (periodically grabbing a RSS feed, automatically sending
 emails, etc.) or in environments without a cron access.
 
 The advantages compared to cron are:
- * a more acurate job-execution scheduling (cron's best precision is at the 
-minute level)
+ * a more acurate job-execution scheduling (cron's best precision is at the minute level)
  * error logging
  * jobs creation from a graphical interface
  * API to create jobs programmatically
@@ -234,6 +233,29 @@ track the error on the graphical interface:
 
 The {{{run()}}} method may launch exceptions. In this case, the job will be 
 marked as failed, except if it is a recuring job.
+
+=== static postSave($job, $params) ===
+This "hook" is called after one job object is created. Depending on the job 
+type, you may want to do several operations along with the job creation. And 
+these operations may also modify the parameters of the job (for instance, for 
+adding the id of a new object created during the hook, etc.)
+
+If the job creation must perform other operations that the job execution must 
+be aware of, then the optionnal static method {{{postSave($job, $params)}}} is
+the right place for this.
+
+For instance:
+{{{
+public static function postSave($job, $params)
+{
+  $feed = new AggregatorFeed();
+  $feed->setUri($params['uri']);
+  $feed->save();
+  $params['feed_id'] = $feed->getId();
+  $job->setParams(serialize($params));
+  $job->save();
+}
+}}}
 
 == API ==
 sfJobQueue:
