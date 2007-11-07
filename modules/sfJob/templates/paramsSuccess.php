@@ -1,4 +1,4 @@
-<?php use_helper('i18N'); ?>
+<?php use_helper('I18N'); ?>
 
 <?php foreach ($fields as $field): ?>
   <div class="form-row">
