@@ -44,6 +44,8 @@ class sfJobQueue extends BasesfJobQueue
    * 
    * @param    string    type of the job
    * @param    array     options of the job
+   * 
+   * @return   object    created job
    */
   public function addJob($type = '', $options = null)
   {
@@ -55,6 +57,8 @@ class sfJobQueue extends BasesfJobQueue
     $job = new sfJob($type, $options);
     $job->setSfJobQueueId($this->getId());
     $job->save();
+
+    return $job;
   }
 
   /**
