@@ -4,6 +4,13 @@
  */
 class sfJobHandler
 {
+  protected $logger;
+
+  public function __construct()
+  {
+    $this->logger = sfLogger::getInstance();
+  }
+
   public function run($params)
   {
     return sfJobQueue::SUCCESS;
