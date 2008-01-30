@@ -1,0 +1,4 @@
+fields:
+  sf_job{type}:
+    required:
+      msg:       Please select a job type
