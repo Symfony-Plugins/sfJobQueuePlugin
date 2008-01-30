@@ -25,7 +25,7 @@ function run_sfqueue_list_queues($task, $args)
   {
     foreach ($job_queues as $job_queue)
     {
-      pake_echo_action($job_queue->getName(),sprintf(' - %s, %s active, %s completed', 
+      pake_echo_action($job_queue->getName(),sprintf(' - %s, %s active, %s completed',
                         $job_queue->getStatusText(),
                         $job_queue->getNbActiveJobs(),
                         $job_queue->getNbCompletedJobs()));
@@ -74,6 +74,18 @@ function run_sfqueue_start_queuemanager($task, $args)
 {
   _sfqueue_initialize_database($args);
 
+  // mark all the job queues as stopped before launching the job manager
+  $c = new Criteria();
+  $job_queues = sfJobQueuePeer::doSelect($c);
+
+  foreach ($job_queues as $job_queue)
+  {
+    $job_queue->setStatus(sfJobQueue::STOPPED);
+    $job_queue->setRequestedStatus(sfJobQueue::STOPPED);
+    $job_queue->save();
+  }
+
+  // start the job queue manager
   $sf_job_queue_manager = new sfJobQueueManager();
   $sf_job_queue_manager->run();
 }
