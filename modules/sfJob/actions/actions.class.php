@@ -123,6 +123,34 @@ class sfJobActions extends autosfJobActions
     }
   }
 
+  public function executeRun()
+  {
+    // don't limit max execution time
+    set_time_limit(0);
+
+    // set memory limit to 512MB
+    ini_set('memory_limit', sfConfig::get('app_sfJobQueuePlugin_memory', '512M'));
+
+    $sf_job = sfJobPeer::retrieveByPk($this->getRequestParameter('id'));
+    $this->forward404Unless($sf_job);
+    $message = $sf_job->run();
+
+    if ($message == '')
+    {
+      if ($sf_job->getMessage() == '')
+      {
+        $message = 'Job completed';
+      }
+      else
+      {
+        $message = $sf_job->getMessage();
+      }
+    }
+
+    $this->setFlash('notice', $message);
+    return $this->redirect('sfJob/list');
+  }
+
   protected function getsfJobOrCreate($id = 'id')
   {
     if (!$this->getRequestParameter($id))

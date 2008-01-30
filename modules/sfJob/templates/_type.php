@@ -26,6 +26,5 @@ $job_handlers = preg_grep('`^sf(.+)JobHandler$`', array_keys($classes));
 echo observe_field('sf_job_type',
                    array('update'   => 'sf_job_properties_form',
                          'url'      => 'sfJob/params',
-                         'with'     => "'type=' + \$F('sf_job_type') + '&id=".$sf_job->getId()."'", 
+                         'with'     => "'type=' + \$F('sf_job_type') + '&id=".$sf_job->getId()."'",
                          'complete' => visual_effect('highlight', 'sf_job_properties_form')));
-?>

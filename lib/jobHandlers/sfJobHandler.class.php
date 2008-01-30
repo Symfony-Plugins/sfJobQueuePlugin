@@ -11,6 +11,11 @@ class sfJobHandler
     $this->logger = sfLogger::getInstance();
   }
 
+  public function getLogger()
+  {
+    return $this->logger;
+  }
+
   public function run($params)
   {
     return sfJobQueue::SUCCESS;
@@ -18,7 +23,7 @@ class sfJobHandler
 
   /**
    * Called after a job creation
-   * 
+   *
    * @param    object     the related job
    * @param    array      array of params of the job
    */

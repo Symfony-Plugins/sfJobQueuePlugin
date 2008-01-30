@@ -7,10 +7,10 @@
     <h2><?php echo __('filters') ?></h2>
 
     <div class="form-row">
-      <label for="type"><?php echo __('Status:') ?></label>
+      <label for="filters_status"><?php echo __('Status:') ?></label>
       <div class="content">
         <?php
-        echo select_tag('filters[status]', 
+        echo select_tag('filters[status]',
                         options_for_select(array('' => '') + sfJobQueue::$status_text,
                                            isset($filters['status']) ? $filters['status'] : null))
         ?>
