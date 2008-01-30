@@ -1,9 +1,9 @@
 <?php
 /*
  * This file is part of the sfJobQueuePlugin package.
- * 
+ *
  * (c) 2007 Xavier Lacot <xavier@lacot.org>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -40,8 +40,8 @@ class sfJobQueueManager
     try
     {
       $apps_dir = glob(sfConfig::get('sf_root_dir').'/apps/*', GLOB_ONLYDIR);
-      $app = substr($apps_dir[0], 
-                    strrpos($apps_dir[0], DIRECTORY_SEPARATOR) + 1, 
+      $app = substr($apps_dir[0],
+                    strrpos($apps_dir[0], DIRECTORY_SEPARATOR) + 1,
                     strlen($apps_dir[0]));
       if (!$app)
       {
@@ -57,7 +57,8 @@ class sfJobQueueManager
           try
           {
             $this->logger->log(sprintf('Starting queue "%s".', $sf_job_queue->getName()));
-            $command = sprintf('(./symfony sfqueue-start-queue %s "%s" >> %s) > /dev/null &', 
+            $command = sprintf('(%s symfony sfqueue-start-queue %s "%s" >> %s) > /dev/null &',
+                               sfConfig::get('app_sfJobQueuePlugin_php', 'php'),
                                $app,
                                $sf_job_queue->getName(),
                                sfConfig::get('app_sfJobQueuePlugin_logfile', '/tmp/sfJobQueuePlugin.log'));
@@ -76,7 +77,7 @@ class sfJobQueueManager
     }
     catch (Exception $e)
     {
-      $this->logger->log(sprintf('Queue manager unexpectidly stopped on error "%s"', 
+      $this->logger->log(sprintf('Queue manager unexpectidly stopped on error "%s"',
                                  $e->getMessage()));
     }
   }
