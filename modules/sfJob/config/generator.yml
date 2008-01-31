@@ -5,11 +5,13 @@ generator:
     theme:                 default
 
     fields:
+      name:                { name: Name }
       tries:               { name: Number of tries }
-      created_at:          { name: Created at, params: date_format=MM/dd HH:mm }
-      scheduled_at:        { name: Scheduled at, params: date_format=MM/dd HH:mm }
-      last_tried_at:       { name: Last tried at, params: date_format=MM/dd HH:mm }
-      completed_at:        { name: Completed at, params: date_format=MM/dd HH:mm }
+      retry_delay:         { name: Retry delay (in seconds) }
+      created_at:          { name: Created at, params: date_format=MM/dd HH:mm:ss }
+      scheduled_at:        { name: Scheduled at, params: date_format=MM/dd HH:mm:ss }
+      last_tried_at:       { name: Last tried at, params: date_format=MM/dd HH:mm:ss }
+      completed_at:        { name: Completed at, params: date_format=MM/dd HH:mm:ss }
 
     list:
       title:               List of the Job
@@ -27,10 +29,11 @@ generator:
     edit:
       title:               Job edition
       display:
-        "Job informations": [sf_job_queue_id, _type, max_tries, is_recuring, retry_delay, scheduled_at]
+        "Job informations": [sf_job_queue_id, _type, name, max_tries, is_recuring, retry_delay, scheduled_at]
         "Job parameters":   [_params]
         "Job status":       [status, tries, created_at, last_tried_at, completed_at]
       fields:
+        name:                { name: Name of the job (informational only) }
         status:             { type: plain }
         tries:              { type: plain }
         created_at:         { type: plain }

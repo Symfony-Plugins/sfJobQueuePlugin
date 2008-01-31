@@ -1,17 +1,17 @@
 <?php
 
-class sfMailJobHandler extends sfJobHandler implements sfJobHandlerInterface
+class sfMailJobHandler extends sfJobHandler
 {
   public function getParamFields()
   {
     return array('from', 'to', 'subject', 'message');
   }
 
-  public function run($params)
+  public function run(array $params)
   {
-    if (false && mail($params['to'], 
-             $params['subject'], 
-             $params['message'], 
+    if (mail($params['to'],
+             $params['subject'],
+             $params['message'],
              'From: '.$params['from']))
     {
       return sfJob::SUCCESS;
@@ -19,7 +19,6 @@ class sfMailJobHandler extends sfJobHandler implements sfJobHandlerInterface
     else
     {
       throw new Exception('There was an error while sending the mail.');
-      return sfJob::ERROR;
     }
   }
 }

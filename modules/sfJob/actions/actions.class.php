@@ -135,11 +135,11 @@ class sfJobActions extends autosfJobActions
     $this->forward404Unless($sf_job);
     $message = $sf_job->run();
 
-    if ($message == '')
+    if ($message == '' || $message == null)
     {
       if ($sf_job->getMessage() == '')
       {
-        $message = 'Job completed';
+        $message = sfConfig::get('sf_i18n') ? $this->getContext()->getI18n()->__('Job completed') : 'Job completed';
       }
       else
       {

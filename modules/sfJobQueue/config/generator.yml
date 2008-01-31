@@ -7,7 +7,7 @@ generator:
     fields:
       name:                          { name: Name }
       scheduler_name:                { name: Scheduler }
-      polling_delay:                 { name: Polling delay }
+      polling_delay:                 { name: Polling delay (in seconds) }
       _is_running:                   { name: Status }
       _nb_active_ready_jobs:         { name: ready, help: number of jobs ready to be executed }
       _nb_active_waiting_jobs:       { name: waiting, help: number of waiting jobs }

@@ -1,21 +1,21 @@
 <?php
 /*
  * This file is part of the sfJobQueuePlugin package.
- * 
+ *
  * (c) 2007 Xavier Lacot <xavier@lacot.org>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 /**
- * This plugins enables job queues into Symfony. It includes all the common job 
- * queues tasks (start, stop, scheduling through job election strategies, etc.), 
- * command line tasks, and a graphical interface for managing queues and jobs. 
- * Using a job queue can be useful when asynchronised server-side operations 
- * have to be performed (periodically grabbing a RSS feed, automatically sending 
+ * This plugins enables job queues into Symfony. It includes all the common job
+ * queues tasks (start, stop, scheduling through job election strategies, etc.),
+ * command line tasks, and a graphical interface for managing queues and jobs.
+ * Using a job queue can be useful when asynchronised server-side operations
+ * have to be performed (periodically grabbing a RSS feed, automatically sending
  * emails, etc.) or in environments without a cron access.
- * 
+ *
  * @author   Xavier Lacot <xavier@lacot.org>
  * @see      http://www.symfony-project.com/trac/wiki/sfJobQueuePlugin
  */
@@ -28,11 +28,11 @@ class sfJob extends BasesfJob
   const IDLE      = 2;
   const SUCCESS   = 9;
 
-  public static $status_text = array(sfJob::ERROR     => 'error', 
-                                     sfJob::CANCELLED => 'cancelled', 
-                                     sfJob::STOPPED   => 'stopped', 
-                                     sfJob::RUNNING   => 'running', 
-                                     sfJob::IDLE      => 'idle', 
+  public static $status_text = array(sfJob::ERROR     => 'error',
+                                     sfJob::CANCELLED => 'cancelled',
+                                     sfJob::STOPPED   => 'stopped',
+                                     sfJob::RUNNING   => 'running',
+                                     sfJob::IDLE      => 'idle',
                                      sfJob::SUCCESS   => 'success');
 
   public function __construct($type = '', $options = null)
@@ -89,7 +89,7 @@ class sfJob extends BasesfJob
 
   /**
    * Returns the status of the job, as a text
-   * 
+   *
    * @return    string
    */
   public function getStatusText()
@@ -104,6 +104,7 @@ class sfJob extends BasesfJob
   public function run()
   {
     set_error_handler(array($this, 'handleRuntimeError'));
+    $status_text = '';
 
     // increment number of tries
     $this->setTries($this->getTries() + 1);
@@ -118,29 +119,30 @@ class sfJob extends BasesfJob
     try
     {
       $status = $jobhandler->run($params);
-      
-      if ($status === '')
+
+      if ($status == '' || $status == null)
       {
         $status = self::SUCCESS;
       }
+
+      $this->setMessage('');
     }
     catch (Exception $e)
     {
       if (!$this->getIsRecuring())
       {
         $status = self::ERROR;
-        $this->setMessage($e->getMessage());
       }
-      else
-      {
-        // messages should be logged here
-      }
+
+      // messages should be logged here
+      $status_text = $e->getMessage();
+      $this->setMessage($status_text);
     }
 
     if (!$this->getIsRecuring())
     {
-      if (($this->getTries() >= $this->getMaxTries()) 
-          && ($status != self::SUCCESS) 
+      if (($this->getTries() >= $this->getMaxTries())
+          && ($status != self::SUCCESS)
           && ($status != self::ERROR))
       {
         $status = self::ERROR;
@@ -157,6 +159,7 @@ class sfJob extends BasesfJob
 
     $this->save();
     restore_error_handler();
+    return $status_text;
   }
 
   /**
@@ -204,7 +207,7 @@ class sfJob extends BasesfJob
         $this->setMessage($msg);
 
         // Max number of tries reached, change status to "error"
-        if (!$this->getIsRecuring() 
+        if (!$this->getIsRecuring()
             && ($this->getTries() >= $this->getMaxTries()))
         {
           $this->setStatus(self::ERROR);
