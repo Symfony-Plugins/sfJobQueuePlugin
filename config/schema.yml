@@ -24,6 +24,16 @@ propel:
     # status can be : -9=error -1=cancelled 0=stopped 1=running 2=idle 9=success
     status:              { phpName: Status, type: integer, default: 2 }
 
+  # the sfJobLog structure logs the execution of the jobs
+  sf_job_log:
+    _attributes:         { phpName: sfJobLog, package: plugins.sfJobQueuePlugin.lib.model }
+    id:                  { phpName: Id, type: integer, required: true, primaryKey: true, autoincrement: true }
+    sf_job_id:           { type: integer, foreignTable: sf_job, foreignReference: id, required: true, onDelete: cascade, isPrimaryKey: true }
+    execution:           integer
+    priority_name:       varchar(10)
+    message:             varchar(255)
+    created_at:          timestamp
+
   # a sfJobQueue gathers several jobs to be runned
   sf_job_queue:
     _attributes:         { phpName: sfJobQueue, package: plugins.sfJobQueuePlugin.lib.model }

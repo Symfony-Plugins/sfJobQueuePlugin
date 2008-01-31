@@ -16,7 +16,8 @@ abstract class sfJobHandler
 
   public function __construct()
   {
-    $this->logger = sfLogger::getInstance();
+    $this->logger = sfFlexibleLogger::getInstance();
+    $this->logger->setLogLevel(SF_LOG_INFO);
   }
 
   public function getLogger()
@@ -44,10 +45,8 @@ abstract class sfJobHandler
    * Executes the job.
    *
    * @param  array  $params   An array of valued job parameters. The key is the
-   * parameter name, as
-   *                          what                          returns the
-   * getParamFields() method and the value is parameter's
-   *                          value.
+   * parameter name (as what returns the getParamFields() method), and the value
+   * is the parameter's value.
    *
    * @throws  Exception  When job execution does not succeed.
    * @return  sfJobQueue::SUCCESS if job execution succeeded.
@@ -62,5 +61,24 @@ abstract class sfJobHandler
    */
   public static function postSave(sfJob $job, array $params)
   {
+  }
+
+  /**
+   * Attach the job back to its handler. Permits to use the Propel job logger
+   *
+   * @param  job    $sf_job   The job that is binded to the current jobhandler
+   * execution
+   */
+  public function setSfJob(sfJob $sf_job)
+  {
+    $sf_propel_job_logger = $this->logger->getLogger('sfPropelJobLogger');
+
+    if (is_null($sf_propel_job_logger))
+    {
+      $sf_propel_job_logger = new sfPropelJobLogger();
+    }
+
+    $sf_propel_job_logger->initialize(array('sf_job_id' => $sf_job->getId()));
+    $this->logger->registerLogger($sf_propel_job_logger);
   }
 }

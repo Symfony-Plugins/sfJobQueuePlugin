@@ -118,6 +118,7 @@ class sfJob extends BasesfJob
 
     try
     {
+      $jobhandler->setSfJob($this);
       $status = $jobhandler->run($params);
 
       if ($status == '' || $status == null)
@@ -137,6 +138,7 @@ class sfJob extends BasesfJob
       // messages should be logged here
       $status_text = $e->getMessage();
       $this->setMessage($status_text);
+      $jobhandler->getLogger()->err(sprintf('{sfJob} Exception thrown: %s', $e->getMessage()));
     }
 
     if (!$this->getIsRecuring())

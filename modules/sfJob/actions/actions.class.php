@@ -86,6 +86,27 @@ class sfJobActions extends autosfJobActions
     }
   }
 
+  public function executeGetLogs()
+  {
+    $this->sf_job = sfJobPeer::retrieveByPk($this->getRequestParameter('id'));
+    $this->forward404Unless($this->sf_job);
+
+    $c = new Criteria();
+    $c->add(sfJobLogPeer::SF_JOB_ID, $this->sf_job->getId());
+    $c->addDescendingOrderByColumn(sfJobLogPeer::EXECUTION);
+    $execution = sfJobLogPeer::doSelectOne($c);
+
+    if ($execution)
+    {
+      $c = new Criteria();
+      $c->add(sfJobLogPeer::SF_JOB_ID, $this->sf_job->getId());
+      $c->add(sfJobLogPeer::EXECUTION, $execution->getExecution());
+      $c->addAscendingOrderByColumn(sfJobLogPeer::CREATED_AT);
+      $c->addAscendingOrderByColumn(sfJobLogPeer::ID);
+      $this->logs = sfJobLogPeer::doSelect($c);
+    }
+  }
+
   public function executeListQueues()
   {
     $this->forward('sfJobQueue', 'list');

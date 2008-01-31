@@ -37,6 +37,8 @@
 <?php include_partial('list_actions') ?>
 </div>
 
+<div id="sf_job_logs">&nbsp;</div>
+
 <div id="sf_admin_footer">
 <?php include_partial('sfJob/list_footer', array('pager' => $pager)) ?>
 </div>

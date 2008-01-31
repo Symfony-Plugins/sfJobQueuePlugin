@@ -14,6 +14,7 @@ class sfMailJobHandler extends sfJobHandler
              $params['message'],
              'From: '.$params['from']))
     {
+      $this->logger->log(sprintf('{sfMailJobHandler} successfully sent mail %s -> %s', $params['from'], $params['to']));
       return sfJob::SUCCESS;
     }
     else

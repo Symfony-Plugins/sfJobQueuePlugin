@@ -2,6 +2,6 @@ fields:
   sf_job_queue{name}:
     required:
       msg:       You must provide a name for this job queue
-  sf_job_queue{scheduler}:
+  sf_job_queue{scheduler_name}:
     required:
       msg:       Please select a scheduler (either "fifo" or "priority")
