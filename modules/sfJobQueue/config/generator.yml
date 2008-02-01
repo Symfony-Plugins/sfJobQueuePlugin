@@ -31,9 +31,9 @@ generator:
     edit:
       display:             [name, _scheduler_name, polling_delay]
       fields:
-        name:              { params: help: Name of the queue, params: disabled=false, type: input_tag }
+        name:              { help: Name of the queue, params: disabled=false, type: input_tag }
       actions:
         _list:             -
         _save:             -
-        _delete:           confirm: Are you sur you want to delete this job queue ? All the attached jobs will be stopped and deleted.
+        _delete:           { params: confirm=Are you sur you want to delete this job queue ? All the attached jobs will be stopped and deleted. }
         create_job:        { name: Create a job, action: createJob, icon: /sf/sf_admin/images/add.png }

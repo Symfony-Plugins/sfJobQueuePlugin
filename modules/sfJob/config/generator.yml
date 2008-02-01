@@ -33,7 +33,7 @@ generator:
         "Job parameters":   [_params]
         "Job status":       [status, tries, created_at, last_tried_at, completed_at]
       fields:
-        name:                { name: Name of the job (informational only) }
+        name:               { name: Name of the job (informational only) }
         status:             { type: plain }
         tries:              { type: plain }
         created_at:         { type: plain }
