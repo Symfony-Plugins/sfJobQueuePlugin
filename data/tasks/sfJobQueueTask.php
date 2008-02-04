@@ -47,10 +47,7 @@ function run_sfqueue_start_queue($task, $args)
   }
 
   $queue_name = $args[1];
-
-  $c = new Criteria();
-  $c->add(sfJobQueuePeer::NAME, $queue_name);
-  $job_queue = sfJobQueuePeer::doSelectOne($c);
+  $job_queue = sfJobQueuePeer::retrieveByQueueName($queue_name);
 
   if (!$job_queue)
   {
@@ -101,10 +98,7 @@ function run_sfqueue_stop_queue($task, $args)
   }
 
   $queue_name = $args[1];
-
-  $c = new Criteria();
-  $c->add(sfJobQueuePeer::NAME, $queue_name);
-  $job_queue = sfJobQueuePeer::doSelectOne($c);
+  $job_queue = sfJobQueuePeer::retrieveByQueueName($queue_name);
 
   if (!$job_queue)
   {
