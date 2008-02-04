@@ -6,9 +6,9 @@
     <?php echo __('waiting') ?>
     <?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/help.png', array('align' => 'absmiddle', 'alt' => __('number of waiting jobs'), 'title' => __('number of waiting jobs'))) ?>
   </th>
-  <th id="sf_admin_list_th_nb_active_jobs_recuring">
-    <?php echo __('recuring') ?>
-    <?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/help.png', array('align' => 'absmiddle', 'alt' => __('number of recuring jobs'), 'title' => __('number of recuring jobs'))) ?>
+  <th id="sf_admin_list_th_nb_active_jobs_recurring">
+    <?php echo __('recurring') ?>
+    <?php echo image_tag(sfConfig::get('sf_admin_web_dir').'/images/help.png', array('align' => 'absmiddle', 'alt' => __('number of recurring jobs'), 'title' => __('number of recurring jobs'))) ?>
   </th>
   <th id="sf_admin_list_th_nb_active_jobs_scheduled">
     <?php echo __('scheduled') ?>

@@ -17,7 +17,7 @@ generator:
       title:               List of the Job
       filters:             [type, status, sf_job_queue_id]
       sort:                [created_at, desc]
-      display:             [sf_job_queue, =type, =name, _status, _tries, _is_recuring, created_at, scheduled_at, _last_tried_at, completed_at]
+      display:             [sf_job_queue, =type, =name, _status, _tries, _is_recurring, created_at, scheduled_at, _last_tried_at, completed_at]
       object_actions:
         _edit:             -
         cancel:            { name: Cancel job, action: cancel, icon: /sf/sf_admin/images/delete.png }
@@ -29,7 +29,7 @@ generator:
     edit:
       title:               Job edition
       display:
-        "Job informations": [sf_job_queue_id, _type, name, max_tries, is_recuring, retry_delay, scheduled_at]
+        "Job informations": [sf_job_queue_id, _type, name, max_tries, is_recurring, retry_delay, scheduled_at]
         "Job parameters":   [_params]
         "Job status":       [status, tries, created_at, last_tried_at, completed_at]
       fields:

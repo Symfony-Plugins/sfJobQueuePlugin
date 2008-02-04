@@ -10,7 +10,7 @@ propel:
     type:                varchar(50)
     tries:               integer
     max_tries:           integer
-    is_recuring:         boolean
+    is_recurring:        boolean
     # retry delay, in seconds (minimal delay between two tries of the same job)
     retry_delay:         integer
     params:              longvarchar

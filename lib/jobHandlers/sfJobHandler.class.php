@@ -71,14 +71,17 @@ abstract class sfJobHandler
    */
   public function setSfJob(sfJob $sf_job)
   {
-    $sf_propel_job_logger = $this->logger->getLogger('sfPropelJobLogger');
-
-    if (is_null($sf_propel_job_logger))
+    if (sfConfig::get('app_sfJobQueuePlugin_logging_enabled', true) === true)
     {
-      $sf_propel_job_logger = new sfPropelJobLogger();
-    }
+      $sf_propel_job_logger = $this->logger->getLogger('sfPropelJobLogger');
 
-    $sf_propel_job_logger->initialize(array('sf_job_id' => $sf_job->getId()));
-    $this->logger->registerLogger($sf_propel_job_logger);
+      if (is_null($sf_propel_job_logger))
+      {
+        $sf_propel_job_logger = new sfPropelJobLogger();
+      }
+
+      $sf_propel_job_logger->initialize(array('sf_job_id' => $sf_job->getId()));
+      $this->logger->registerLogger($sf_propel_job_logger);
+    }
   }
 }

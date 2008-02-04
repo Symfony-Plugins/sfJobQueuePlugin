@@ -1,9 +1,9 @@
 <?php
 /*
  * This file is part of the sfJobQueuePlugin package.
- * 
+ *
  * (c) 2007 Xavier Lacot <xavier@lacot.org>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -20,7 +20,7 @@ abstract class sfScheduler
   protected function buildQuery()
   {
     $query = '
-    SELECT * 
+    SELECT *
     FROM %s
     WHERE %s = ?
     AND ((%s < %s) OR %s = ?)
@@ -31,10 +31,10 @@ abstract class sfScheduler
 
     $query = sprintf($query,
                      sfJobPeer::TABLE_NAME,
-                     sfJobPeer::SF_JOB_QUEUE_ID, 
+                     sfJobPeer::SF_JOB_QUEUE_ID,
                      sfJobPeer::TRIES,
                      sfJobPeer::MAX_TRIES,
-                     sfJobPeer::IS_RECURING,
+                     sfJobPeer::IS_RECURRING,
                      sfJobPeer::COMPLETED_AT,
                      sfJobPeer::STATUS,
                      sfJob::SUCCESS,

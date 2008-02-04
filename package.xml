@@ -67,7 +67,7 @@
      </dir>
      <dir name="templates">
       <file name="_filters.php" role="data" />
-      <file name="_is_recuring.php" role="data" />
+      <file name="_is_recurring.php" role="data" />
       <file name="_list_td_actions.php" role="data" />
       <file name="_params.php" role="data" />
       <file name="_status.php" role="data" />
@@ -98,7 +98,7 @@
       <file name="_name.php" role="data" />
       <file name="_nb_active_jobs.php" role="data" />
       <file name="_nb_active_ready_jobs.php" role="data" />
-      <file name="_nb_active_recuring_jobs.php" role="data" />
+      <file name="_nb_active_recurring_jobs.php" role="data" />
       <file name="_nb_active_scheduled_jobs.php" role="data" />
       <file name="_nb_active_waiting_jobs.php" role="data" />
       <file name="_nb_completed_cancelled_jobs.php" role="data" />

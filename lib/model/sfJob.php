@@ -59,10 +59,10 @@ class sfJob extends BasesfJob
       unset($options['scheduled_at']);
     }
 
-    if (isset($options['is_recuring']))
+    if (isset($options['is_recurring']))
     {
-      $this->setIsRecuring($options['is_recuring']);
-      unset($options['is_recuring']);
+      $this->setIsRecurring($options['is_recurring']);
+      unset($options['is_recurring']);
     }
 
     if (isset($options['max_tries']))
@@ -72,7 +72,7 @@ class sfJob extends BasesfJob
     }
     else
     {
-      $max_tries = sfConfig::get('app_sfJobQueue_max_tries', 3);
+      $max_tries = sfConfig::get('app_sfJobQueuePlugin_max_tries', 3);
       $this->setMaxTries($max_tries);
     }
 
@@ -130,7 +130,7 @@ class sfJob extends BasesfJob
     }
     catch (Exception $e)
     {
-      if (!$this->getIsRecuring())
+      if (!$this->getIsRecurring())
       {
         $status = self::ERROR;
       }
@@ -141,7 +141,7 @@ class sfJob extends BasesfJob
       $jobhandler->getLogger()->err(sprintf('{sfJob} Exception thrown: %s', $e->getMessage()));
     }
 
-    if (!$this->getIsRecuring())
+    if (!$this->getIsRecurring())
     {
       if (($this->getTries() >= $this->getMaxTries())
           && ($status != self::SUCCESS)
@@ -209,7 +209,7 @@ class sfJob extends BasesfJob
         $this->setMessage($msg);
 
         // Max number of tries reached, change status to "error"
-        if (!$this->getIsRecuring()
+        if (!$this->getIsRecurring()
             && ($this->getTries() >= $this->getMaxTries()))
         {
           $this->setStatus(self::ERROR);
