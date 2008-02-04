@@ -291,10 +291,9 @@ The method '''{{{run()}}}''' uses an array of parameters for completing the
 job. It must do a proper use of the return status, either {{{sfJob::SUCCESS}}} 
 in case the job is successful, or {{{sfJob::ERROR}}} if there is an error. 
 Remember that, if a PHP error is raised while running the job, its execution 
-will be stopped and the job will be marked as failed. You'll then be able to 
-track the error on the graphical interface:
-
-[[Image(sfJobQueuePlugin_error_display.png)]]
+will be stopped and the job will be marked as failed. If you have activated the 
+[#Logging logging], you'll then be able to track the error on the graphical 
+interface.
 
 The {{{run()}}} method may launch exceptions. In this case, the job will be 
 marked as failed, except if it is a recurring job.
@@ -327,7 +326,9 @@ public static function postSave($job, $params)
 == Logging ==
 The plugin proposes a logging system, that is used along with Symfony's default 
 logging system. This logger uses Propel, and is rather useful when debugging 
-in-development jobHandlers.
+in-development jobHandlers:
+
+[[Image(sfJobQueuePlugin_successful_job.png)]]
 
 If you believe that the JobHandlers that you developed are robust and don't 
 require such a precise logging, you may want to disable this logging by setting 
@@ -362,6 +363,11 @@ means that you can use the methods {{{debug($message)}}}, {{{info($message)}}},
 {{{notice($message)}}}, {{{warning($message)}}}, {{{err($message)}}}, 
 {{{crit($message)}}}, {{{alert($message)}}}, {{{emerg($message)}}} and 
 {{{log($message, $priority = SF_LOG_INFO)}}}.
+
+Error messages will be displayed in red:
+
+[[Image(sfJobQueuePlugin_error_job.png)]]
+
 
 == API ==
 sfJobQueue:
