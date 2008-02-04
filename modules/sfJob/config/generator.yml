@@ -21,7 +21,7 @@ generator:
       object_actions:
         _edit:             -
         cancel:            { name: Cancel job, action: cancel, icon: /sf/sf_admin/images/delete.png }
-        run:               { name: Run job, action: run, icon: /sf/sf_admin/images/next.png, confirm: "Please be aware that it may take several minutes until this action will finish. If the job to be runned is huge, it may overload your webserver. In this case, you will prefer to run this job using the asynchronous job queue manager." }
+        run:               { name: Run job, action: run, icon: /sf/sf_admin/images/next.png, confirm: "Please be aware that it may take several minutes until this action will finish. If the job to be run is huge, it may overload your webserver. In this case, you will prefer to run this job using the asynchronous job queue manager." }
       actions:
         _create:           -
         job_queues_list:   { name: Back to job queues list, action: listQueues, icon: /sf/sf_admin/images/list.png }

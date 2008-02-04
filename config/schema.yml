@@ -34,7 +34,7 @@ propel:
     message:             varchar(255)
     created_at:          timestamp
 
-  # a sfJobQueue gathers several jobs to be runned
+  # a sfJobQueue gathers several jobs to be run
   sf_job_queue:
     _attributes:         { phpName: sfJobQueue, package: plugins.sfJobQueuePlugin.lib.model }
     id:                  { phpName: Id, type: integer, required: true, primaryKey: true, autoincrement: true }
