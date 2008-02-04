@@ -113,7 +113,7 @@ function run_sfqueue_stop_queue($task, $args)
   {
     $job_queue->setRequestedStatus(sfJobQueue::STOPPED);
     $job_queue->save();
-    pake_echo(sprintf('Queue "%s" stop requeted.', $queue_name));
+    pake_echo(sprintf('Queue "%s" stop requested.', $queue_name));
   }
 }
 

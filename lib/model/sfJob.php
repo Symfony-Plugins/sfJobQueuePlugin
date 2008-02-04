@@ -109,6 +109,7 @@ class sfJob extends BasesfJob
     // increment number of tries
     $this->setTries($this->getTries() + 1);
     $this->setLastTriedAt(time());
+    $this->setStatus(sfJob::RUNNING);
     $this->save();
 
     $params = $this->getParams();
@@ -157,6 +158,10 @@ class sfJob extends BasesfJob
       }
 
       $this->setStatus($status);
+    }
+    else
+    {
+      $this->setStatus(sfJob::IDLE);
     }
 
     $this->save();
