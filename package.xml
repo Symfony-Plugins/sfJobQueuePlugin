@@ -10,11 +10,11 @@
   <email>xavier@lacot.org</email>
   <active>yes</active>
  </lead>
- <date>2007-10-24</date>
- <time>02:05:12</time>
+ <date>2008-02-04</date>
+ <time>13:35:12</time>
  <version>
-  <release>0.2.0</release>
-  <api>0.2.0</api>
+  <release>0.3.0</release>
+  <api>0.3.0</api>
  </version>
  <stability>
   <release>beta</release>
@@ -22,12 +22,12 @@
  </stability>
  <license uri="http://www.symfony-project.com/license">MIT license</license>
  <notes>
- * upgraded the graphical interface :
-   * possibility to create jobs
-   * support for recuring jobs
-   * support for jobs scheduling
+ * introduced sfPropelJobLogger, for a better job activity logging
+ * upgraded the graphical interface:
+   * possibility to manually launch jobs
+   * added display logging messages for the last job execution
  * improved documentation
- * introduced job queue manager concept
+ * improved job queue manager robustness
  </notes>
  <contents>
   <dir name="/">
@@ -42,11 +42,17 @@
    <dir name="lib">
     <dir name="jobHandlers">
      <file name="sfJobHandler.class.php" role="data" />
-     <file name="sfJobHandlerInterface.interface.php" role="data" />
+     <file name="sfMailJobHandler.class.php" role="data" />
+    </dir>
+    <dir name="logger">
+     <file name="sfFlexibleLogger.class.php" role="data" />
+     <file name="sfPropelJobLogger.class.php" role="data" />
     </dir>
     <dir name="model">
      <file name="sfJob.php" role="data" />
+     <file name="sfJobLog.php" role="data" />
      <file name="sfJobPeer.php" role="data" />
+     <file name="sfJobLogPeer.php" role="data" />
      <file name="sfJobQueue.php" role="data" />
      <file name="sfJobQueuePeer.php" role="data" />
     </dir>
@@ -64,20 +70,28 @@
      </dir>
      <dir name="config">
       <file name="generator.yml" role="data" />
+      <file name="view.yml" role="data" />
+     </dir>
+     <dir name="lib">
+      <file name="BasesfJobActions.class.php" role="data" />
      </dir>
      <dir name="templates">
       <file name="_filters.php" role="data" />
       <file name="_is_recurring.php" role="data" />
+      <file name="_last_tried_at.php" role="data" />
+      <file name="_list_messages.php" role="data" />
       <file name="_list_td_actions.php" role="data" />
       <file name="_params.php" role="data" />
       <file name="_status.php" role="data" />
       <file name="_tries.php" role="data" />
       <file name="_type.php" role="data" />
+      <file name="getLogsSuccess.php" role="data" />
       <file name="listSuccess.php" role="data" />
       <file name="paramsError.php" role="data" />
       <file name="paramsSuccess.php" role="data" />
      </dir>
      <dir name="validate">
+      <file name="edit.yml" role="data" />
      </dir>
     </dir>
     <dir name="sfJobQueue">
@@ -86,6 +100,10 @@
      </dir>
      <dir name="config">
       <file name="generator.yml" role="data" />
+      <file name="view.yml" role="data" />
+     </dir>
+     <dir name="lib">
+      <file name="BasesfJobQueueActions.class.php" role="data" />
      </dir>
      <dir name="templates">
       <file name="_edit_actions.php" role="data" />
@@ -102,11 +120,14 @@
       <file name="_nb_active_scheduled_jobs.php" role="data" />
       <file name="_nb_active_waiting_jobs.php" role="data" />
       <file name="_nb_completed_cancelled_jobs.php" role="data" />
+      <file name="_nb_completed_failure_jobs.php" role="data" />
       <file name="_nb_completed_successful_jobs.php" role="data" />
+      <file name="_scheduler_name.php" role="data" />
       <file name="editJobSuccess.php" role="data" />
       <file name="updateStatusSuccess.php" role="data" />
      </dir>
      <dir name="validate">
+      <file name="edit.yml" role="data" />
      </dir>
     </dir>
    </dir>
@@ -133,6 +154,25 @@
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-10-24</date>
+   <time>02:05:12</time>
+   <license uri="http://www.symfony-project.com/license">MIT license</license>
+   <notes> * upgraded the graphical interface :
+   * possibility to create jobs
+   * support for recuring jobs
+   * support for jobs scheduling
+ * improved documentation
+ * introduced job queue manager concept</notes>
+  </release>
   <release>
 	 <version>
 	  <release>0.1.0</release>
