@@ -58,7 +58,7 @@ class sfJobQueueManager
           {
             $this->logger->log(sprintf('Starting queue "%s".', $sf_job_queue->getName()));
             $command = sprintf('(%s symfony sfqueue-start-queue %s "%s" >> %s) > /dev/null &',
-                               sfConfig::get('app_sfJobQueuePlugin_php', 'php'),
+                               sfConfig::get('app_sfJobQueuePlugin_php', sfToolkit::getPHPCli()),
                                $app,
                                $sf_job_queue->getName(),
                                sfConfig::get('app_sfJobQueuePlugin_logfile', '/tmp/sfJobQueuePlugin.log'));
