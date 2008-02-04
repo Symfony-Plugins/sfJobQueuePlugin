@@ -1,2 +1,2 @@
 all:
-  stylesheets:  [sfJobQueuePlugin]
+  stylesheets:  [/sfJobQueuePlugin/css/sfJobQueuePlugin: { position: last }]
