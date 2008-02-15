@@ -210,7 +210,18 @@ class BasesfJobActions extends autosfJobActions
 
     if (isset($sf_job['params']))
     {
-      $this->sf_job->setParams(serialize($sf_job['params']));
+      $sf_job_params = $sf_job->getParams();
+
+      if ($sf_job_params)
+      {
+        $sf_job_params = unserialize($sf_job_params);
+      }
+      else
+      {
+        $sf_job_params = array();
+      }
+
+      $this->sf_job->setParams(serialize(array_merge($sf_job_params, $sf_job['params'])));
     }
   }
 }
