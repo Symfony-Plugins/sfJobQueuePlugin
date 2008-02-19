@@ -18,9 +18,9 @@ class sfFlexibleLogger extends sfLogger
 
   public function getLogger($type)
   {
-    if (isset($this->logger[$type]))
+    if (isset($this->loggers[$type]))
     {
-      return $this->logger[$type];
+      return $this->loggers[$type];
     }
   }
 
@@ -41,9 +41,9 @@ class sfFlexibleLogger extends sfLogger
    */
   public function unregisterLogger(string $type)
   {
-    if (isset($this->logger[$type]))
+    if (isset($this->loggers[$type]))
     {
-      unset($this->logger[$type]);
+      unset($this->loggers[$type]);
     }
   }
 }
