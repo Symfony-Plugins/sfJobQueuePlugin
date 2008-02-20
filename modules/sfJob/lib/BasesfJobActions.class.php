@@ -204,14 +204,12 @@ class BasesfJobActions extends autosfJobActions
 
   protected function updatesfJobFromRequest()
   {
+    $sf_job_params = $this->sf_job->getParams();
     parent::updatesfJobFromRequest();
-
     $sf_job = $this->getRequestParameter('sf_job');
 
     if (isset($sf_job['params']))
     {
-      $sf_job_params = $sf_job->getParams();
-
       if ($sf_job_params)
       {
         $sf_job_params = unserialize($sf_job_params);
