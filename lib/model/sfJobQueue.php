@@ -58,6 +58,9 @@ class sfJobQueue extends BasesfJobQueue
     $job->setSfJobQueueId($this->getId());
     $job->save();
 
+    $job_handler = sprintf('sf%sJobHandler', ucfirst($job->getType()));
+    call_user_func(array($job_handler, 'postSave'), $job, unserialize($job->getParams()));
+
     return $job;
   }
 
