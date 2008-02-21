@@ -35,6 +35,8 @@ class sfJob extends BasesfJob
                                      sfJob::IDLE      => 'idle',
                                      sfJob::SUCCESS   => 'success');
 
+  protected $jobhandler;
+
   public function __construct($type = '', $options = null)
   {
     $job_handler = sprintf('sf%sJobHandler', ucfirst($type));
@@ -103,6 +105,7 @@ class sfJob extends BasesfJob
    */
   public function run()
   {
+    register_shutdown_function(array($this, 'shutdown'));
     set_error_handler(array($this, 'handleRuntimeError'));
     $status_text = '';
 
@@ -115,12 +118,12 @@ class sfJob extends BasesfJob
     $params = $this->getParams();
     $params = ($params != null) ? unserialize($params) : array();
     $job_class = sprintf('sf%sJobHandler', ucfirst($this->getType()));
-    $jobhandler = new $job_class;
+    $this->jobhandler = new $job_class;
 
     try
     {
-      $jobhandler->setSfJob($this);
-      $status = $jobhandler->run($params);
+      $this->jobhandler->setSfJob($this);
+      $status = $this->jobhandler->run($params);
 
       if ($status == '' || $status == null)
       {
@@ -139,7 +142,8 @@ class sfJob extends BasesfJob
       // messages should be logged here
       $status_text = $e->getMessage();
       $this->setMessage($status_text);
-      $jobhandler->getLogger()->err(sprintf('{sfJob} Exception thrown: %s', $e->getMessage()));
+      $this->jobhandler->getLogger()->err(sprintf('{sfJob} Exception thrown: %s',
+                                                  $e->getMessage()));
     }
 
     if (!$this->getIsRecurring())
@@ -238,5 +242,44 @@ class sfJob extends BasesfJob
     }
 
     parent::save();
+  }
+
+  /**
+   * Called at the execution shutdown while the job was running (ie., fatal
+   * error)
+   */
+  public function shutdown()
+  {
+    if ($this->getStatus() == self::RUNNING)
+    {
+      $error = error_get_last();
+
+      if ($error)
+      {
+        $this->jobhandler->getLogger()->err(sprintf('{sfJob} Process died during execution. Last error was "%s" on line %s of file %s.',
+                                                    $error['message'],
+                                                    $error['line'],
+                                                    $error['file']));
+      }
+      else
+      {
+        $this->jobhandler->getLogger()->err('{sfJob} Process died during execution.');
+      }
+
+      if (!$this->getIsRecurring()
+          && ($this->getTries() >= $this->getMaxTries()))
+      {
+        $this->setStatus(self::ERROR);
+        $this->setCompletedAt(time());
+      }
+      else
+      {
+        $this->setStatus(self::IDLE);
+      }
+
+      $this->save();
+    }
+
+    restore_error_handler();
   }
 }

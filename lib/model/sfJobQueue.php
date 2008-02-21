@@ -207,8 +207,10 @@ class sfJobQueue extends BasesfJobQueue
    */
   public function run()
   {
+    register_shutdown_function(array($this, 'shutdown'));
     $this->initialize();
-    $this->logger->log('queue start');
+    $this->logger->log(sprintf('{sfJobQueue} Queue "%s" started.',
+                               $this->getName()));
 
     try
     {
@@ -234,18 +236,35 @@ class sfJobQueue extends BasesfJobQueue
         $status = $this->getRequestedStatusFromDb();
       }
 
-      $this->logger->log(sprintf('Queue "%s" stopped.',
+      $this->logger->log(sprintf('{sfJobQueue} Queue "%s" stopped.',
                                  $this->getName()));
       $this->setStatus(self::STOPPED);
       $this->save();
     }
     catch (Exception $e)
     {
-      $this->logger->log(sprintf('Queue "%s" unexpectedly stopped on error "%s"',
+      $this->logger->log(sprintf('{sfJobQueue} Queue "%s" unexpectedly stopped on error "%s"',
                                  $this->getName(),
                                  $e->getMessage()));
       $this->setStatus(self::STOPPED);
       $this->save();
     }
+  }
+
+  /**
+   * Called at the execution shutdown while the job was running (ie., fatal
+   * error)
+   */
+  public function shutdown()
+  {
+    if ($this->getStatus() == self::RUNNING)
+    {
+      $this->logger->log(sprintf('{sfJobQueue} Queue "%s" died on fatal error.',
+                                 $this->getName()));
+      $this->setStatus(self::STOPPED);
+      $this->save();
+    }
+
+    restore_error_handler();
   }
 }

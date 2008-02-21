@@ -61,6 +61,7 @@ function run_sfqueue_start_queue($task, $args)
   else
   {
     $job_queue->setStatus(sfJobQueue::RUNNING);
+    $job_queue->setRequestedStatus(sfJobQueue::RUNNING);
     $job_queue->save();
     pake_echo(sprintf('Queue "%s" started.', $queue_name));
     $job_queue->run();
