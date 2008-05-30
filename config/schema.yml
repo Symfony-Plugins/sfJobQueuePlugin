@@ -13,7 +13,7 @@ propel:
     is_recurring:        boolean
     # retry delay, in seconds (minimal delay between two tries of the same job)
     retry_delay:         integer
-    params:              longvarchar
+    params:              clob
     message:             longvarchar
     # priority : from 0 to 9 (lower to higher)
     priority:            { phpName: Priority, type: integer, default: 0 }
@@ -39,7 +39,7 @@ propel:
     _attributes:         { phpName: sfJobQueue, package: plugins.sfJobQueuePlugin.lib.model }
     id:                  { phpName: Id, type: integer, required: true, primaryKey: true, autoincrement: true }
     name:                { phpName: Name, type: varchar(50), required: true }
-    # the ordonnancer is responsible of the election of the next job to be 
+    # the ordonnancer is responsible of the election of the next job to be
     # processed by the queue
     # can be 'fifo' (first in, first out) or 'prority' (highest priority is first out)
     scheduler_name:      varchar(50)
