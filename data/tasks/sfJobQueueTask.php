@@ -1,5 +1,8 @@
 <?php
 
+pake_desc('runs the first eligible job of a queue');
+pake_task('sfqueue-first-eligible-job');
+
 pake_desc('list and status of the job queues');
 pake_task('sfqueue-list-queues');
 
@@ -12,6 +15,45 @@ pake_task('sfqueue-start-queuemanager');
 pake_desc('stop a job queue');
 pake_task('sfqueue-stop-queue');
 
+
+function run_sfqueue_first_eligible_job($task, $args)
+{
+  _sfqueue_initialize_database($args);
+
+  if (count($args) < 2)
+  {
+    throw new Exception('You must provide a queue name.');
+  }
+
+  $queue_name = $args[1];
+  $job_queue = sfJobQueuePeer::retrieveByQueueName($queue_name);
+
+  if (!$job_queue)
+  {
+    throw new Exception('This Job queue could not be found.');
+  }
+
+  if ($job_queue->isRunning() === true)
+  {
+    throw new Exception('This Job queue is already running. Please stop the job queue before using this task.');
+  }
+  else
+  {
+    $return = $job_queue->runFirstEligibleJob();
+
+    if (is_array($return))
+    {
+      pake_echo(sprintf('The first job of the queue "%s" has been runned : "%s"%s.',
+                        $queue_name,
+                        $return['job_name'],
+                        ($return['job_status'] != '') ? ', with status '.$return['job_status'] : ''));
+    }
+    else
+    {
+      pake_echo(sprintf('No job is ready to be runned in the queue "%s".', $queue_name));
+    }
+  }
+}
 
 function run_sfqueue_list_queues($task, $args)
 {

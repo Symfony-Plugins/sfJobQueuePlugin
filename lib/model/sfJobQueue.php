@@ -252,6 +252,49 @@ class sfJobQueue extends BasesfJobQueue
   }
 
   /**
+   * Runs the first eligible job of the jobqueue
+   *
+   * @return mixed  false if not job is eligible, a two-dimensonnal array if a
+   * job has been runned
+   */
+  public function runFirstEligibleJob()
+  {
+    $this->setStatus(self::RUNNING);
+    $this->save();
+
+    register_shutdown_function(array($this, 'shutdown'));
+    $this->initialize();
+    $job = $this->scheduler->electJob();
+
+    if ($job != null)
+    {
+      $job_name = $job->getName();
+
+      try
+      {
+        $job_status = $job->run();
+      }
+      catch (Exception $e)
+      {
+        $this->logger->log($e->getMessage());
+        $job_status = $e->getMessage();
+      }
+
+      $this->setStatus(self::STOPPED);
+      $this->save();
+    }
+    else
+    {
+      $this->setStatus(self::STOPPED);
+      $this->save();
+      return false;
+    }
+
+    return array('job_name'   => $job_name,
+                 'job_status' => $job_status);
+  }
+
+  /**
    * Called at the execution shutdown while the job was running (ie., fatal
    * error)
    */
