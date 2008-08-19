@@ -1,4 +1,5 @@
 <?php
+sfConfig::set('sf_logging_enabled', false);
 
 pake_desc('runs the first eligible job of a queue');
 pake_task('sfqueue-first-eligible-job');
