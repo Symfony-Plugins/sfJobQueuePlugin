@@ -59,7 +59,7 @@ abstract class sfJobHandler
    * @param    sfJob      the related job
    * @param    array      array of params of the job
    */
-  public static function postSave(sfJob $job, array $params)
+  public static function postSave(sfJob $job, $params)
   {
   }
 
